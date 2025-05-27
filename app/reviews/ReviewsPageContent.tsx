@@ -83,8 +83,7 @@ export default function ReviewsPageContent() {
       (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
       (filters.length === '' || review.length.includes(filters.length))
     );
-  },
-
+  }
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
       <Header />
