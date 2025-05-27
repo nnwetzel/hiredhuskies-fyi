@@ -19,7 +19,6 @@ export default function Page() {
     length: '',
   });
 
-  // Populate form from query on mount
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
     setForm((prev) => ({ ...prev, ...params }));
