@@ -3,6 +3,21 @@ import { Form } from 'app/form';
 import { signIn } from 'app/auth';
 import { SubmitButton } from 'app/submit-button';
 
+async function handleLogin(_prevState: string | null, formData: FormData): Promise<string | null> {
+  'use server';
+
+  try {
+    await signIn('credentials', {
+      redirectTo: '/protected',
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    });
+    return null; // success
+  } catch (err) {
+    return 'Invalid email or password.';
+  }
+}
+
 export default function Login() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 px-4 py-16">
@@ -13,16 +28,7 @@ export default function Login() {
             You must register first using your <strong>northeastern.edu</strong> email.
           </p>
         </div>
-        <Form
-          action={async (formData: FormData) => {
-            'use server';
-            await signIn('credentials', {
-              redirectTo: '/protected',
-              email: formData.get('email') as string,
-              password: formData.get('password') as string,
-            });
-          }}
-        >
+        <Form action={handleLogin}>
           <SubmitButton>Sign in</SubmitButton>
           <p className="text-center text-sm text-zinc-600 pb-6">
             Don&apos;t have an account?{' '}
