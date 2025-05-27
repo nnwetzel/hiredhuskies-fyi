@@ -23,6 +23,7 @@ const mockReviews = [
 
 export default function ReviewsPageContent() {
   const searchParams = useSearchParams();
+
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({
     location: '',
@@ -33,13 +34,21 @@ export default function ReviewsPageContent() {
     term: '',
     length: '',
   });
+  const [showFilters, setShowFilters] = useState(false);
 
+  // Load filters from query string
   useEffect(() => {
-    const query = Object.fromEntries(searchParams.entries());
-    setSearch(query.search || '');
+    const values = Object.fromEntries(searchParams.entries());
+    setSearch(values.search ?? '');
     setFilters((prev) => ({
       ...prev,
-      ...query,
+      location: values.location ?? '',
+      company: values.company ?? '',
+      position: values.position ?? '',
+      pay: values.pay ?? '',
+      major: values.major ?? '',
+      term: values.term ?? '',
+      length: values.length ?? '',
     }));
   }, [searchParams]);
 
@@ -68,9 +77,7 @@ export default function ReviewsPageContent() {
           review.description,
           review.interview,
           review.pay,
-          review.pay.match(/\d+/g)?.join(' ') ?? '',
           review.rating,
-          review.rating.match(/[\d.]+/g)?.join(' ') ?? '',
         ]
           .join(' ')
           .toLowerCase()
@@ -83,13 +90,17 @@ export default function ReviewsPageContent() {
       (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
       (filters.length === '' || review.length.includes(filters.length))
     );
-  }
+  });
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
       <Header />
 
       <div className="mt-10 w-full max-w-6xl px-4 mx-auto">
-        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col md:flex-row md:items-end md:space-x-4 gap-4">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col md:flex-row md:items-end md:space-x-4 gap-4"
+        >
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
@@ -109,6 +120,13 @@ export default function ReviewsPageContent() {
           </div>
           <div className="flex flex-col gap-2 md:gap-1 md:items-center">
             <button
+              type="button"
+              onClick={() => setShowFilters((prev) => !prev)}
+              className="text-sm underline text-zinc-700 hover:text-black transition"
+            >
+              {showFilters ? 'Hide Filters' : 'More Filters'}
+            </button>
+            <button
               type="submit"
               className="px-6 py-2 bg-black text-white rounded-md hover:bg-zinc-800 transition w-full md:w-auto"
             >
@@ -116,6 +134,39 @@ export default function ReviewsPageContent() {
             </button>
           </div>
         </form>
+
+        {showFilters && (
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <input type="text" placeholder="Company (e.g. Wolters Kluwer)" name="company" value={filters.company} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <input type="text" placeholder="Position Title (e.g. Software Engineer Co-op)" name="position" value={filters.position} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <select name="pay" value={filters.pay} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
+              <option value="">Pay Range</option>
+              <option value="$20">Under $20/hr</option>
+              <option value="$30">$20–30/hr</option>
+              <option value="$40">Above $30/hr</option>
+            </select>
+            <select name="major" value={filters.major} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
+              <option value="">Academic Major</option>
+              <option value="Bouvé College of Health Sciences">Bouvé College of Health Sciences</option>
+              <option value="College of Arts, Media & Design">College of Arts, Media & Design</option>
+              <option value="College of Engineering">College of Engineering</option>
+              <option value="College of Professional Studies">College of Professional Studies</option>
+              <option value="College of Science">College of Science</option>
+              <option value="College of Social Sciences & Humanities">College of Social Sciences & Humanities</option>
+              <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
+              <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
+            </select>
+            <input type="text" placeholder="Work Term (e.g. Spring 2025)" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
+              <option value="">Job Length</option>
+              <option value="3">3 month</option>
+              <option value="4">4 month</option>
+              <option value="6">6 month</option>
+              <option value="8">8 month</option>
+              <option value="12">12 month</option>
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="max-w-4xl mx-auto space-y-6 mt-10 px-4">
