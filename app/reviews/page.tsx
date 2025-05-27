@@ -2,154 +2,181 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import Header from '@/app/components/Header';
 
 const mockReviews = [
   {
     company: 'Wolters Kluwer',
+    logo: '/logos/wk.png',
     position: 'DevOps Software Engineer Co-op',
     location: 'Waltham, MA (Remote)',
     pay: '$27/hr',
     term: 'Spring 2025',
     length: '6 months',
-    major: 'Khoury',
+    major: 'Khoury College of Computer Sciences',
     rating: '4.5 / 5',
     interview: 'Went well!',
     description: 'Good experience overall.',
   },
-  // Add more mock entries as needed
 ];
 
 export default function ReviewsPage() {
+  const [search, setSearch] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    location: '',
+    company: '',
+    position: '',
+    pay: '',
+    major: '',
+    term: '',
+    length: '',
+  });
+
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
+  const filteredReviews = mockReviews.filter((review) => {
+    const match = review.pay.match(/\$(\d+)/);
+    const hourly = match ? parseInt(match[1]) : 0;
+    const payMatch =
+      filters.pay === '' ||
+      (filters.pay === '$20' && hourly < 20) ||
+      (filters.pay === '$30' && hourly >= 20 && hourly <= 30) ||
+      (filters.pay === '$40' && hourly > 30);
+
+    return (
+      (search === '' ||
+        [
+          review.company,
+          review.position,
+          review.location,
+          review.major,
+          review.term,
+          review.length,
+          review.description,
+          review.interview,
+          review.pay,
+          review.pay.match(/\d+/g)?.join(' ') ?? '',
+          review.rating,
+          review.rating.match(/[\d.]+/g)?.join(' ') ?? '',
+        ]
+          .join(' ')
+          .toLowerCase()
+          .includes(search.toLowerCase())) &&
+      (filters.location === '' || review.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+      (filters.company === '' || review.company.toLowerCase().includes(filters.company.toLowerCase())) &&
+      (filters.position === '' || review.position.toLowerCase().includes(filters.position.toLowerCase())) &&
+      payMatch &&
+      (filters.major === '' || review.major.toLowerCase().includes(filters.major.toLowerCase())) &&
+      (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
+      (filters.length === '' || review.length.includes(filters.length))
+    );
+  });
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter px-4 pb-16">
-      {/* Header */}
-      <header className="w-full px-6 py-5 flex items-center justify-between text-sm text-black relative">
-        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition">
-          <div className="w-4 h-4 rounded-full bg-black" />
-          <span className="text-xl font-medium tracking-tight text-black">
-            huskycoops<span className="font-normal">.fyi</span>
-          </span>
-        </Link>
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
+      <Header />
 
-        <nav className="hidden md:flex gap-6 text-black absolute left-1/2 -translate-x-1/2">
-          <Link href="/reviews">Reviews</Link>
-          <Link href="/about">About</Link>
-          <Link href="/faqs">FAQs</Link>
-        </nav>
-
-        <div className="hidden md:flex">
-          <Link
-            href="/submit"
-            className="px-4 py-1.5 rounded-full text-sm transition bg-black text-white hover:bg-zinc-800"
-          >
-            Submit a Review
-          </Link>
-        </div>
-      </header>
-
-      {/* Search Form */}
-      <div className="mt-10 w-full max-w-3xl mx-auto px-4">
-        <form className="flex flex-col gap-4 items-center justify-center">
-          {/* Row: Keywords + Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      <div className="mt-10 w-full max-w-6xl px-4 mx-auto">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col md:flex-row md:items-end md:space-x-4 gap-4"
+        >
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
               placeholder="Keywords"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
             />
             <input
               type="text"
               placeholder="Location (e.g. Boston, MA)"
+              name="location"
+              value={filters.location}
+              onChange={handleFilterChange}
               className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
-
-          <button
-            type="button"
-            onClick={() => setShowFilters((prev) => !prev)}
-            className="text-sm underline text-zinc-700 hover:text-black transition mt-1"
-          >
-            {showFilters ? 'Hide Filters' : 'More Filters'}
-          </button>
-
-          {showFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              <input
-                type="text"
-                placeholder="Company (e.g. Wolters Kluwer)"
-                className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              <input
-                type="text"
-                placeholder="Position Title (e.g. Software Engineer Co-op)"
-                className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              <select className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
-                <option value="">Pay Range</option>
-                <option value="<20">Under $20/hr</option>
-                <option value="20-30">$20–30/hr</option>
-                <option value=">30">Above $30/hr</option>
-              </select>
-              <select className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
-                <option value="">Academic Major</option>
-                <option value="Bouve">Bouvé College of Health Sciences</option>
-                <option value="AMD">College of Arts, Media & Design</option>
-                <option value="Engineering">College of Engineering</option>
-                <option value="Professional">College of Professional Studies</option>
-                <option value="Science">College of Science</option>
-                <option value="SSH">College of Social Sciences & Humanities</option>
-                <option value="Business">D'Amore-McKim School of Business</option>
-                <option value="Khoury">Khoury College of Computer Sciences</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Work Term (e.g. Spring 2025)"
-                className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              <select className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
-                <option value="">Job Length</option>
-                <option value="4">4 month</option>
-                <option value="6">6 month</option>
-                <option value="8">8 month</option>
-                <option value="12">12 month</option>
-              </select>
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="mt-4 px-6 py-2 bg-black text-white rounded-md hover:bg-zinc-800 transition"
-          >
-            Search
-          </button>
+          <div className="flex flex-col gap-2 md:gap-1 md:items-center">
+            <button
+              type="button"
+              onClick={() => setShowFilters((prev) => !prev)}
+              className="text-sm underline text-zinc-700 hover:text-black transition"
+            >
+              {showFilters ? 'Hide Filters' : 'More Filters'}
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-black text-white rounded-md hover:bg-zinc-800 transition w-full md:w-auto"
+            >
+              Search
+            </button>
+          </div>
         </form>
+
+        {showFilters && (
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <input type="text" placeholder="Company (e.g. Wolters Kluwer)" name="company" value={filters.company} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <input type="text" placeholder="Position Title (e.g. Software Engineer Co-op)" name="position" value={filters.position} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <select name="pay" value={filters.pay} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
+              <option value="">Pay Range</option>
+              <option value="$20">Under $20/hr</option>
+              <option value="$30">$20–30/hr</option>
+              <option value="$40">Above $30/hr</option>
+            </select>
+            <select name="major" value={filters.major} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
+              <option value="">Academic Major</option>
+              <option value="Bouvé College of Health Sciences">Bouvé College of Health Sciences</option>
+              <option value="College of Arts, Media & Design">College of Arts, Media & Design</option>
+              <option value="College of Engineering">College of Engineering</option>
+              <option value="College of Professional Studies">College of Professional Studies</option>
+              <option value="College of Science">College of Science</option>
+              <option value="College of Social Sciences & Humanities">College of Social Sciences & Humanities</option>
+              <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
+              <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
+            </select>
+            <input type="text" placeholder="Work Term (e.g. Spring 2025)" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
+              <option value="">Job Length</option>
+              <option value="3">3 month</option>
+              <option value="4">4 month</option>
+              <option value="6">6 month</option>
+              <option value="8">8 month</option>
+              <option value="12">12 month</option>
+            </select>
+          </div>
+        )}
       </div>
 
-      {/* Review List */}
-      <div className="max-w-4xl mx-auto space-y-6 mt-10">
-        {mockReviews.length === 0 ? (
+      <div className="max-w-4xl mx-auto space-y-6 mt-10 px-4">
+        {filteredReviews.length === 0 ? (
           <p className="text-center text-zinc-600">No reviews found.</p>
         ) : (
-          mockReviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-white border border-zinc-200 rounded-xl p-6 shadow-md space-y-2"
-            >
-              <h2 className="text-xl font-semibold">
-                {review.company} — {review.position}
-              </h2>
-              <p><strong>Location:</strong> {review.location}</p>
-              <p><strong>Pay:</strong> {review.pay}</p>
-              <p><strong>Term:</strong> {review.term}</p>
-              <p><strong>Length:</strong> {review.length}</p>
-              <p><strong>Major:</strong> {review.major}</p>
-              <p><strong>Rating:</strong> {review.rating}</p>
-              <h3 className="font-semibold pt-2">Interview Process</h3>
-              <p>{review.interview}</p>
-              <h3 className="font-semibold pt-2">Review Description</h3>
-              <p>{review.description}</p>
+          filteredReviews.map((review, index) => (
+            <div key={index} className="bg-white border border-zinc-200 rounded-xl p-6 shadow-md flex gap-4">
+              {review.logo && (
+                <div className="w-16 h-16 relative shrink-0">
+                  <Image src={review.logo} alt={review.company} fill className="object-contain rounded-md" />
+                </div>
+              )}
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold">{review.company} — {review.position}</h2>
+                <p><strong>Location:</strong> {review.location}</p>
+                <p><strong>Pay:</strong> {review.pay}</p>
+                <p><strong>Term:</strong> {review.term}</p>
+                <p><strong>Length:</strong> {review.length}</p>
+                <p><strong>Major:</strong> {review.major}</p>
+                <p><strong>Rating:</strong> {review.rating}</p>
+                <h3 className="font-semibold pt-2">Interview Process</h3>
+                <p>{review.interview}</p>
+                <h3 className="font-semibold pt-2">Review Description</h3>
+                <p>{review.description}</p>
+              </div>
             </div>
           ))
         )}

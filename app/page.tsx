@@ -64,14 +64,14 @@ export default function Page() {
                 </select>
                 <select className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
                   <option value="">Academic Major</option>
-                  <option value="Bouve">Bouvé College of Health Sciences</option>
-                  <option value="AMD">College of Arts, Media & Design</option>
-                  <option value="Engineering">College of Engineering</option>
-                  <option value="Professional">College of Professional Studies</option>
-                  <option value="Science">College of Science</option>
-                  <option value="SSH">College of Social Sciences & Humanities</option>
-                  <option value="Business">D'Amore-McKim School of Business</option>
-                  <option value="Khoury">Khoury College of Computer Sciences</option>
+                  <option value="Bouvé College of Health Sciences">Bouvé College of Health Sciences</option>
+                  <option value="College of Arts, Media & Design">College of Arts, Media & Design</option>
+                  <option value="College of Engineering">College of Engineering</option>
+                  <option value="College of Professional Studies">College of Professional Studies</option>
+                  <option value="College of Science">College of Science</option>
+                  <option value="College of Social Sciences & Humanities">College of Social Sciences & Humanities</option>
+                  <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
+                  <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
                 </select>
                 <input
                   type="text"
@@ -80,6 +80,7 @@ export default function Page() {
                 />
                 <select className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
                   <option value="">Job Length</option>
+                  <option value="4">3 month</option>
                   <option value="4">4 month</option>
                   <option value="6">6 month</option>
                   <option value="8">8 month</option>
