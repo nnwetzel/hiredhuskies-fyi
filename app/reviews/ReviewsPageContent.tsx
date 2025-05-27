@@ -1,9 +1,10 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Header from '@/app/components/Header';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import Header from '@/app/components/Header';
 
 const mockReviews = [
   {
@@ -21,10 +22,11 @@ const mockReviews = [
   },
 ];
 
-export default function ReviewsPageContent() {
+export default function ReviewsPage() {
   const searchParams = useSearchParams();
 
   const [search, setSearch] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     location: '',
     company: '',
@@ -34,22 +36,19 @@ export default function ReviewsPageContent() {
     term: '',
     length: '',
   });
-  const [showFilters, setShowFilters] = useState(false);
 
-  // Load filters from query string
   useEffect(() => {
-    const values = Object.fromEntries(searchParams.entries());
-    setSearch(values.search ?? '');
-    setFilters((prev) => ({
-      ...prev,
-      location: values.location ?? '',
-      company: values.company ?? '',
-      position: values.position ?? '',
-      pay: values.pay ?? '',
-      major: values.major ?? '',
-      term: values.term ?? '',
-      length: values.length ?? '',
-    }));
+    const query = Object.fromEntries(searchParams.entries());
+    setSearch(query.search || '');
+    setFilters({
+      location: query.location || '',
+      company: query.company || '',
+      position: query.position || '',
+      pay: query.pay || '',
+      major: query.major || '',
+      term: query.term || '',
+      length: query.length || '',
+    });
   }, [searchParams]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -77,7 +76,9 @@ export default function ReviewsPageContent() {
           review.description,
           review.interview,
           review.pay,
+          review.pay.match(/\d+/g)?.join(' ') ?? '',
           review.rating,
+          review.rating.match(/[\d.]+/g)?.join(' ') ?? '',
         ]
           .join(' ')
           .toLowerCase()
