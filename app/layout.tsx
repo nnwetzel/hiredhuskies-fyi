@@ -6,7 +6,7 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const title = 'Husker FYI';
+const title = 'Husky Co-ops';
 const description =
   'Student-powered co-op reviews, built for those who want real insight before their next job. Know what to expect — from Huskies who’ve been there.';
 
@@ -18,7 +18,7 @@ export const metadata = {
     title,
     description,
   },
-  metadataBase: new URL('https://husker.fyi'), // ✅ fixed domain here too
+  metadataBase: new URL('https://huskycoops.fyi'),
 };
 
 export default function RootLayout({
