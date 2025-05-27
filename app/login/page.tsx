@@ -31,7 +31,7 @@ export default function Login() {
         <Form action={handleLogin}>
           <SubmitButton>Sign in</SubmitButton>
           <p className="text-center text-sm text-zinc-600 pb-6">
-            Don&apos;t have an account?{' '}
+            Don\'t have an account?{' '}
             <Link href="/register" className="font-semibold text-black underline">
               Sign up
             </Link>{' '}
