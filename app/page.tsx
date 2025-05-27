@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/app/components/Header';
-import { useRouter } from 'next/navigation';
 
 export default function Page() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
   const [form, setForm] = useState({
     search: '',
@@ -17,7 +19,11 @@ export default function Page() {
     length: '',
   });
 
-  const router = useRouter();
+  // Populate form from query on mount
+  useEffect(() => {
+    const params = Object.fromEntries(searchParams.entries());
+    setForm((prev) => ({ ...prev, ...params }));
+  }, [searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -36,7 +42,6 @@ export default function Page() {
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
       <Header />
 
-      {/* Hero Section */}
       <section className="flex flex-col items-center justify-center text-center px-6 pt-24 md:pt-36">
         <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-black">
           Transparent Co-op Reviews
@@ -45,10 +50,8 @@ export default function Page() {
           Browse reviews. Skip surprises.
         </p>
 
-        {/* Search Form */}
         <div className="mt-10 w-full max-w-3xl px-4">
           <form className="flex flex-col gap-4 items-center justify-center" onSubmit={handleSubmit}>
-            {/* Row: Keywords + Location */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
               <input
                 type="text"

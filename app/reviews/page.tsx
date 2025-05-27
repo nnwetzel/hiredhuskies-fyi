@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/Header';
 
 const mockReviews = [
@@ -22,6 +23,8 @@ const mockReviews = [
 ];
 
 export default function ReviewsPage() {
+  const searchParams = useSearchParams();
+
   const [search, setSearch] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
@@ -33,6 +36,20 @@ export default function ReviewsPage() {
     term: '',
     length: '',
   });
+
+  useEffect(() => {
+    const query = Object.fromEntries(searchParams.entries());
+    setSearch(query.search || '');
+    setFilters({
+      location: query.location || '',
+      company: query.company || '',
+      position: query.position || '',
+      pay: query.pay || '',
+      major: query.major || '',
+      term: query.term || '',
+      length: query.length || '',
+    });
+  }, [searchParams]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
