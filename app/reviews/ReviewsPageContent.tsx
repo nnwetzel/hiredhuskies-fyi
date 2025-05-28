@@ -7,20 +7,21 @@ import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/Header';
 
 const mockReviews = [
-  {
-    company: 'Wolters Kluwer',
-    logo: '/logos/wk.png',
-    position: 'DevOps Software Engineer Co-op',
-    location: 'Waltham, MA (Remote)',
-    pay: '$27/hr',
-    term: 'Spring 2025',
-    length: '6 months',
-    major: 'Khoury College of Computer Sciences',
-    rating: '4.5 / 5',
-    interview: 'Went well!',
-    description: 'Good experience overall.',
-  },
-];
+    {
+      company: 'Wolters Kluwer',
+      logo: '/logos/wk.png',
+      position: 'DevOps Software Engineer Co-op',
+      location: 'Waltham, MA (Remote)',
+      pay: '$27/hr',
+      term: 'Spring 2025',
+      length: '6 months',
+      major: 'Khoury College of Computer Sciences',
+      rating: '4.5 / 5',
+      interview: `I interviewed with two team members for 30 minutes each, then with the manager for 30 minutes, followed by two 15-minute sessions, one with the co-op program manager and one with my recruiter. No LeetCode. They asked about Git, Linux, Ansible, Docker, and possibly Terraform or Kubernetes. For example, "How do you check a file’s disk usage in Linux?" or "What’s the difference between git rebase and git restore?" The questions were mostly high-level and practical.`,
+      description: `I worked on a really cool dosing NLP service and gained a lot of experience in infrastructure automation. I used technologies like Git, Ansible, Jenkins, Docker, Kubernetes, Azure Blob Storage, and FastAPI, which I was able to include on my resume. One downside was that the co-op was fully remote. I prefer more in-person interaction, but the team was supportive and I collaborated with other Northeastern co-ops and full-time engineers who had been co-ops themselves. Therefore, they had a good support system because former co-ops ran the program and understood what students needed.`,
+      helpfulCount: 0,
+    },
+  ];
 
 export default function ReviewsPage() {
   const searchParams = useSearchParams();
