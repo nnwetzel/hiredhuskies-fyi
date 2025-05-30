@@ -70,19 +70,45 @@ export default function ReviewsPage() {
 
   const [filteredReviews, setFilteredReviews] = useState(reviews);
 
-  useEffect(() => {
-    const query = Object.fromEntries(searchParams.entries());
-    setSearch(query.search || '');
-    setFilters({
-      location: query.location || '',
-      company: query.company || '',
-      position: query.position || '',
-      pay: query.pay || '',
-      major: query.major || '',
-      term: query.term || '',
-      length: query.length || '',
-    });
-  }, [searchParams]);
+useEffect(() => {
+  const results = reviews.filter((review) => {
+    const match = review.pay.match(/\$(\d+)/);
+    const hourly = match ? parseInt(match[1]) : 0;
+    const payMatch =
+      filters.pay === '' ||
+      (filters.pay === '$20' && hourly < 20) ||
+      (filters.pay === '$30' && hourly >= 20 && hourly <= 30) ||
+      (filters.pay === '$40' && hourly > 30);
+
+    return (
+      (search === '' ||
+        [
+          review.company,
+          review.position,
+          review.location,
+          review.major,
+          review.term,
+          review.length,
+          review.description,
+          review.interview,
+          review.pay,
+          review.rating,
+        ]
+          .join(' ')
+          .toLowerCase()
+          .includes(search.toLowerCase())) &&
+      (filters.location === '' || review.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+      (filters.company === '' || review.company.toLowerCase().includes(filters.company.toLowerCase())) &&
+      (filters.position === '' || review.position.toLowerCase().includes(filters.position.toLowerCase())) &&
+      payMatch &&
+      (filters.major === '' || review.major.toLowerCase().includes(filters.major.toLowerCase())) &&
+      (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
+      (filters.length === '' || review.length.includes(filters.length))
+    );
+  });
+
+  setFilteredReviews(results);
+}, [search, filters]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
