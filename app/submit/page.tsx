@@ -114,7 +114,7 @@ export default function SubmitPage() {
             onChange={handleChange}
           />
 
-          <Textarea label="Interview Process" name="interview" hint="e.g. number of rounds, interview format, questions asked, technical challenges" value={formValues.interview} onChange={handleChange} />
+          <Textarea label="Application Process" name="interview" hint="e.g. number of interview rounds, format, questions asked, technical challenges" value={formValues.interview} onChange={handleChange} />
 
           <Textarea label="Review Description" name="description" hint="e.g. responsibilities, team culture, mentorship, work-life balance, would you recommend it" value={formValues.description} onChange={handleChange} />
 

@@ -193,7 +193,7 @@ export default function ReviewsPage() {
                 <p className="text-sm text-zinc-500 pt-1">
                   Added on {new Date(review.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </p>
-                <h3 className="font-semibold pt-2">Interview Process</h3>
+                <h3 className="font-semibold pt-2">Application Process</h3>
                 <p>{review.interview}</p>
                 <h3 className="font-semibold pt-2">Review Description</h3>
                 <p>{review.description}</p>
