@@ -11,7 +11,8 @@ export default function HomeContent() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const query = new URLSearchParams();
-    if (search) query.set('search', search);
+    if (search) query.set('search', search.trim());
+    query.set('_ts', Date.now().toString());
     router.push(`/reviews?${query.toString()}`);
   };
 
