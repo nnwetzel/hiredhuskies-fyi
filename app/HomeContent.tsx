@@ -28,7 +28,7 @@ export default function HomeContent() {
             <input
               type="text"
               name="search"
-              placeholder="Keywords"
+              placeholder="Keywords (e.g. company, position, term)"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"

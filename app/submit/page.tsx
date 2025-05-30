@@ -65,7 +65,7 @@ export default function SubmitPage() {
   }
 
   return (
-    <main className="min-h-screen pb-24 bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
+    <main className="min-h-screen pb-20 bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
       <Header />
 
       <div className="max-w-2xl mx-auto bg-white p-6 mt-12 mb-4 rounded-2xl shadow-md border border-zinc-200">

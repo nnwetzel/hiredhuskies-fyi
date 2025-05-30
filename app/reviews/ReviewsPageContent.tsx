@@ -1,12 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/Header';
 
-const mockReviews = [
+const reviews = [
   {
     company: 'CaNCURE',
     logo: '/logos/cancure.png',
@@ -69,6 +68,8 @@ export default function ReviewsPage() {
     length: '',
   });
 
+  const [filteredReviews, setFilteredReviews] = useState(reviews);
+
   useEffect(() => {
     const query = Object.fromEntries(searchParams.entries());
     setSearch(query.search || '');
@@ -87,57 +88,60 @@ export default function ReviewsPage() {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  const filteredReviews = mockReviews.filter((review) => {
-    const match = review.pay.match(/\$(\d+)/);
-    const hourly = match ? parseInt(match[1]) : 0;
-    const payMatch =
-      filters.pay === '' ||
-      (filters.pay === '$20' && hourly < 20) ||
-      (filters.pay === '$30' && hourly >= 20 && hourly <= 30) ||
-      (filters.pay === '$40' && hourly > 30);
+  const handleSearch = () => {
+    const results = reviews.filter((review) => {
+      const match = review.pay.match(/\$(\d+)/);
+      const hourly = match ? parseInt(match[1]) : 0;
+      const payMatch =
+        filters.pay === '' ||
+        (filters.pay === '$20' && hourly < 20) ||
+        (filters.pay === '$30' && hourly >= 20 && hourly <= 30) ||
+        (filters.pay === '$40' && hourly > 30);
 
-    return (
-      (search === '' ||
-        [
-          review.company,
-          review.position,
-          review.location,
-          review.major,
-          review.term,
-          review.length,
-          review.description,
-          review.interview,
-          review.pay,
-          review.pay.match(/\d+/g)?.join(' ') ?? '',
-          review.rating,
-          review.rating.match(/[\d.]+/g)?.join(' ') ?? '',
-        ]
-          .join(' ')
-          .toLowerCase()
-          .includes(search.toLowerCase())) &&
-      (filters.location === '' || review.location.toLowerCase().includes(filters.location.toLowerCase())) &&
-      (filters.company === '' || review.company.toLowerCase().includes(filters.company.toLowerCase())) &&
-      (filters.position === '' || review.position.toLowerCase().includes(filters.position.toLowerCase())) &&
-      payMatch &&
-      (filters.major === '' || review.major.toLowerCase().includes(filters.major.toLowerCase())) &&
-      (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
-      (filters.length === '' || review.length.includes(filters.length))
-    );
-  });
+      return (
+        (search === '' ||
+          [
+            review.company,
+            review.position,
+            review.location,
+            review.major,
+            review.term,
+            review.length,
+            review.description,
+            review.interview,
+            review.pay,
+            review.rating,
+          ]
+            .join(' ')
+            .toLowerCase()
+            .includes(search.toLowerCase())) &&
+        (filters.location === '' || review.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+        (filters.company === '' || review.company.toLowerCase().includes(filters.company.toLowerCase())) &&
+        (filters.position === '' || review.position.toLowerCase().includes(filters.position.toLowerCase())) &&
+        payMatch &&
+        (filters.major === '' || review.major.toLowerCase().includes(filters.major.toLowerCase())) &&
+        (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
+        (filters.length === '' || review.length.includes(filters.length))
+      );
+    });
+    setFilteredReviews(results);
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
       <Header />
-
       <div className="mt-10 w-full max-w-6xl px-4 mx-auto">
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
           className="flex flex-col md:flex-row md:items-end md:space-x-4 gap-4"
         >
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
-              placeholder="Keywords"
+              placeholder="Keywords (e.g. company, position, term)"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
@@ -170,8 +174,8 @@ export default function ReviewsPage() {
 
         {showFilters && (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            <input type="text" placeholder="Company (e.g. Wolters Kluwer)" name="company" value={filters.company} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
-            <input type="text" placeholder="Position Title (e.g. Software Engineer Co-op)" name="position" value={filters.position} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <input type="text" placeholder="Company" name="company" value={filters.company} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <input type="text" placeholder="Position Title" name="position" value={filters.position} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
             <select name="pay" value={filters.pay} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
               <option value="">Pay Range</option>
               <option value="$20">Under $20/hr</option>
@@ -180,16 +184,12 @@ export default function ReviewsPage() {
             </select>
             <select name="major" value={filters.major} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
               <option value="">Academic Major</option>
-              <option value="Bouvé College of Health Sciences">Bouvé College of Health Sciences</option>
-              <option value="College of Arts, Media & Design">College of Arts, Media & Design</option>
+              <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
               <option value="College of Engineering">College of Engineering</option>
-              <option value="College of Professional Studies">College of Professional Studies</option>
               <option value="College of Science">College of Science</option>
               <option value="College of Social Sciences & Humanities">College of Social Sciences & Humanities</option>
-              <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
-              <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
             </select>
-            <input type="text" placeholder="Work Term (e.g. Spring 2025)" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <input type="text" placeholder="Work Term" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
             <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
               <option value="">Job Length</option>
               <option value="3">3 month</option>
@@ -202,7 +202,7 @@ export default function ReviewsPage() {
         )}
       </div>
 
-      <div className="max-w-4xl mx-auto space-y-6 mt-10 px-4">
+      <div className="max-w-4xl mx-auto space-y-6 mt-10 px-4 pb-20">
         {filteredReviews.length === 0 ? (
           <p className="text-center text-zinc-600">No reviews found.</p>
         ) : (
