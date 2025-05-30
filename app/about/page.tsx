@@ -8,10 +8,10 @@ export default function AboutPage() {
       <Header />
 
       <div className="max-w-3xl mx-auto px-6 py-24 space-y-8">
-        <h1 className="text-4xl font-bold text-center">About huskycoops.fyi</h1>
+        <h1 className="text-4xl font-bold text-center">About hiredhuskies.fyi</h1>
 
         <p className="text-lg leading-relaxed text-zinc-800">
-          Co-ops are a core part of the Northeastern experience — but students often walk into roles with little idea what to expect. I created <strong>huskycoops.fyi</strong> to bring transparency to the process.
+          Co-ops are a core part of the Northeastern experience — but students often walk into roles with little idea what to expect. I created <strong>hiredhuskies.fyi</strong> to bring transparency to the process.
         </p>
 
         <p className="text-lg leading-relaxed text-zinc-800">
@@ -27,7 +27,7 @@ export default function AboutPage() {
         </p>
 
         <p className="text-sm text-zinc-500 text-center mt-10">
-          Built by students, for students — huskycoops.fyi is not affiliated with Northeastern University.
+          Built by students, for students — hiredhuskies.fyi is not affiliated with Northeastern University.
         </p>
       </div>
     </main>

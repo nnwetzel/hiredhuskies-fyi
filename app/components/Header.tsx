@@ -12,7 +12,7 @@ export default function Header() {
       <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition">
         <div className="w-4 h-4 rounded-full bg-black" />
         <span className="text-xl font-medium tracking-tight text-black">
-          huskycoops<span className="font-normal">.fyi</span>
+          hiredhuskies<span className="font-normal">.fyi</span>
         </span>
       </Link>
 
