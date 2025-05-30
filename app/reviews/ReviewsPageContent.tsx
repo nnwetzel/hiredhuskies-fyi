@@ -56,65 +56,23 @@ const reviews = [
 export default function ReviewsPage() {
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    location: '',
-    company: '',
-    position: '',
-    pay: '',
-    major: '',
-    term: '',
-    length: '',
-  });
-
-  const [filteredReviews, setFilteredReviews] = useState(reviews);
-
-useEffect(() => {
-  const results = reviews.filter((review) => {
-    const match = review.pay.match(/\$(\d+)/);
-    const hourly = match ? parseInt(match[1]) : 0;
-    const payMatch =
-      filters.pay === '' ||
-      (filters.pay === '$20' && hourly < 20) ||
-      (filters.pay === '$30' && hourly >= 20 && hourly <= 30) ||
-      (filters.pay === '$40' && hourly > 30);
-
-    return (
-      (search === '' ||
-        [
-          review.company,
-          review.position,
-          review.location,
-          review.major,
-          review.term,
-          review.length,
-          review.description,
-          review.interview,
-          review.pay,
-          review.rating,
-        ]
-          .join(' ')
-          .toLowerCase()
-          .includes(search.toLowerCase())) &&
-      (filters.location === '' || review.location.toLowerCase().includes(filters.location.toLowerCase())) &&
-      (filters.company === '' || review.company.toLowerCase().includes(filters.company.toLowerCase())) &&
-      (filters.position === '' || review.position.toLowerCase().includes(filters.position.toLowerCase())) &&
-      payMatch &&
-      (filters.major === '' || review.major.toLowerCase().includes(filters.major.toLowerCase())) &&
-      (filters.term === '' || review.term.toLowerCase().includes(filters.term.toLowerCase())) &&
-      (filters.length === '' || review.length.includes(filters.length))
-    );
-  });
-
-  setFilteredReviews(results);
-}, [search, filters]);
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+  const initialSearch = searchParams.get('search') || '';
+  const initialFilters = {
+    location: searchParams.get('location') || '',
+    company: searchParams.get('company') || '',
+    position: searchParams.get('position') || '',
+    pay: searchParams.get('pay') || '',
+    major: searchParams.get('major') || '',
+    term: searchParams.get('term') || '',
+    length: searchParams.get('length') || '',
   };
 
-  const handleSearch = () => {
+  const [search, setSearch] = useState(initialSearch);
+  const [filters, setFilters] = useState(initialFilters);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filteredReviews, setFilteredReviews] = useState(reviews);
+
+  useEffect(() => {
     const results = reviews.filter((review) => {
       const match = review.pay.match(/\$(\d+)/);
       const hourly = match ? parseInt(match[1]) : 0;
@@ -150,7 +108,12 @@ useEffect(() => {
         (filters.length === '' || review.length.includes(filters.length))
       );
     });
+
     setFilteredReviews(results);
+  }, [search, filters]);
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
   return (
@@ -158,10 +121,7 @@ useEffect(() => {
       <Header />
       <div className="mt-10 w-full max-w-6xl px-4 mx-auto">
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSearch();
-          }}
+          onSubmit={(e) => e.preventDefault()}
           className="flex flex-col md:flex-row md:items-end md:space-x-4 gap-4"
         >
           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -189,12 +149,6 @@ useEffect(() => {
             >
               {showFilters ? 'Hide Filters' : 'More Filters'}
             </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-black text-white rounded-md hover:bg-zinc-800 transition w-full md:w-auto"
-            >
-              Search
-            </button>
           </div>
         </form>
 
@@ -213,7 +167,12 @@ useEffect(() => {
               <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
               <option value="College of Engineering">College of Engineering</option>
               <option value="College of Science">College of Science</option>
-              <option value="College of Social Sciences & Humanities">College of Social Sciences & Humanities</option>
+              <option value="Bouvé College of Health Sciences">Bouvé College of Health Sciences</option>
+              <option value="College of Arts, Media and Design">College of Arts, Media and Design</option>
+              <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
+              <option value="College of Social Sciences and Humanities">College of Social Sciences and Humanities</option>
+              <option value="College of Professional Studies">College of Professional Studies</option>
+              <option value="School of Law">School of Law</option>
             </select>
             <input type="text" placeholder="Work Term" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
             <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
@@ -253,7 +212,7 @@ useEffect(() => {
                 </p>
                 <h3 className="font-semibold pt-2">Application Process</h3>
                 <p>{review.interview}</p>
-                <h3 className="font-semibold pt-2">Review Description</h3>
+                <h3 className="font-semibold pt-6">Review Description</h3>
                 <p>{review.description}</p>
               </div>
             </div>
