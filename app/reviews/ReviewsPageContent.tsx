@@ -120,11 +120,12 @@ export default function ReviewsPage() {
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
       <Header />
       <div className="mt-10 w-full max-w-6xl px-4 mx-auto">
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="flex flex-col md:flex-row md:items-end md:space-x-4 gap-4"
-        >
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="flex flex-col gap-4"
+      >
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-[90%]">
             <input
               type="text"
               placeholder="Keywords (e.g. company, position, term)"
@@ -141,16 +142,15 @@ export default function ReviewsPage() {
               className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
-          <div className="flex flex-col gap-2 md:gap-1 md:items-center">
-            <button
-              type="button"
-              onClick={() => setShowFilters((prev) => !prev)}
-              className="text-sm underline text-zinc-700 hover:text-black transition"
-            >
-              {showFilters ? 'Hide Filters' : 'More Filters'}
-            </button>
-          </div>
-        </form>
+          <button
+            type="button"
+            onClick={() => setShowFilters((prev) => !prev)}
+            className="text-sm underline text-zinc-700 hover:text-black transition mt-2 md:mt-0 md:ml-4 self-end"
+          >
+            {showFilters ? 'Hide Filters' : 'More Filters'}
+          </button>
+        </div>
+      </form>
 
         {showFilters && (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
