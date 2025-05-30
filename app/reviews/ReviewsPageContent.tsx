@@ -9,7 +9,7 @@ import Header from '@/app/components/Header';
 const mockReviews = [
   {
     company: 'CaNCURE',
-    logo: 'cancure.png',
+    logo: '/logos/cancure.png',
     position: 'Research Assistant/Mentee',
     location: 'Boston, MA',
     pay: '$12,000 stipend',
@@ -24,7 +24,7 @@ const mockReviews = [
   },
   {
     company: 'Brigham and Women’s Hospital',
-    logo: 'bwh.jpeg',
+    logo: '/logos/bwh.png',
     position: 'Patient Care Associate',
     location: 'Boston, MA',
     pay: '$18/hr',
