@@ -12,8 +12,9 @@ export async function POST(req: Request) {
     location,
     pay,
     term,
-    major,
     length,
+    major,
+    source,
     rating,
     interview,
     description,
@@ -27,17 +28,18 @@ export async function POST(req: Request) {
       html: `
       <div style="font-family: sans-serif; color: #111; line-height: 1.6; font-size: 15px">
         <h2 style="font-size: 22px; margin-bottom: 16px;">${company} — ${position}</h2>
-    
+
         <div style="margin-bottom: 8px;"><strong>Location:</strong> ${location}</div>
         <div style="margin-bottom: 8px;"><strong>Pay:</strong> ${pay}</div>
         <div style="margin-bottom: 8px;"><strong>Term:</strong> ${term}</div>
-        <div style="margin-bottom: 8px;"><strong>Length:</strong> ${length} months</div>
+        <div style="margin-bottom: 8px;"><strong>Length:</strong> ${length}</div>
         <div style="margin-bottom: 8px;"><strong>Major:</strong> ${major}</div>
+        <div style="margin-bottom: 8px;"><strong>Found via:</strong> ${source}</div>
         <div style="margin-bottom: 16px;"><strong>Rating:</strong> ${rating} / 5</div>
-    
-        <h3 style="margin-top: 24px; margin-bottom: 8px;">Interview Process</h3>
+
+        <h3 style="margin-top: 24px; margin-bottom: 8px;">Application Process</h3>
         <p style="margin: 0 0 16px;">${interview || 'N/A'}</p>
-    
+
         <h3 style="margin-bottom: 8px;">Review Description</h3>
         <p style="margin: 0;">${description || 'N/A'}</p>
       </div>

@@ -11,8 +11,9 @@ const fields = [
   'location',
   'pay',
   'term',
-  'major',
   'length',
+  'major',
+  'source',
   'rating',
   'interview',
   'description',
@@ -76,7 +77,13 @@ export default function SubmitPage() {
           <Input label="Location" name="location" hint="e.g. Boston, MA (Remote)" value={formValues.location} onChange={handleChange} />
           <Input label="Pay" name="pay" hint="e.g. $28/hr, Unpaid" value={formValues.pay} onChange={handleChange} />
           <Input label="Work Term" name="term" hint="e.g. Spring 2025" value={formValues.term} onChange={handleChange} />
-
+          <Select
+            label="Job Length"
+            name="length"
+            value={formValues.length}
+            onChange={handleChange}
+            options={['', '3 month', '4 month', '6 month', '8 month', '12 month']}
+          />
           <Select
             label="Academic Major"
             name="major"
@@ -94,15 +101,13 @@ export default function SubmitPage() {
               'Khoury College of Computer Sciences',
             ]}
           />
-
-          <Select
-            label="Job Length"
-            name="length"
-            value={formValues.length}
+          <Input
+            label="Found via"
+            name="source"
+            hint="e.g. NUWorks, LinkedIn, Handshake"
+            value={formValues.source}
             onChange={handleChange}
-            options={['', '3 month', '4 month', '6 month', '8 month', '12 month']}
           />
-
           <Input
             label="Rating (1–5)"
             name="rating"
@@ -113,17 +118,33 @@ export default function SubmitPage() {
             value={formValues.rating}
             onChange={handleChange}
           />
-
-          <Textarea label="Application Process" name="interview" hint="e.g. number of interview rounds, format, questions asked, technical challenges" value={formValues.interview} onChange={handleChange} />
-
-          <Textarea label="Review Description" name="description" hint="e.g. responsibilities, team culture, mentorship, work-life balance, would you recommend it" value={formValues.description} onChange={handleChange} />
+          <Textarea
+            label="Application Process"
+            name="interview"
+            hint="e.g. number of interview rounds, format, questions asked, technical challenges"
+            value={formValues.interview}
+            onChange={handleChange}
+          />
+          <Textarea
+            label="Review Description"
+            name="description"
+            hint="e.g. responsibilities, team culture, mentorship, work-life balance, would you recommend it"
+            value={formValues.description}
+            onChange={handleChange}
+          />
 
           <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-zinc-800 transition">
             Submit Review
           </button>
 
-          {formState === 'success' && <p className="text-green-600 text-center">Submitted successfully! Please wait 24–48 hours for approval.</p>}
-          {formState === 'error' && <p className="text-red-600 text-center">Something went wrong. Please try again.</p>}
+          {formState === 'success' && (
+            <p className="text-green-600 text-center">
+              Submitted successfully! Please wait 24–48 hours for approval.
+            </p>
+          )}
+          {formState === 'error' && (
+            <p className="text-red-600 text-center">Something went wrong. Please try again.</p>
+          )}
         </form>
       </div>
     </main>
