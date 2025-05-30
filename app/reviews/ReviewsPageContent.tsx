@@ -35,7 +35,7 @@ const mockReviews = [
     source: 'NUWorks',
     interview: `Phone screen and Zoom interview with the manager. Mix of technical and personal questions about your goals and skill set.`,
     description: `A lot of grunt work and close collaboration with nursing staff. As a premed, it gave me strong clinical exposure and stories for my med school application. Some units were understaffed at times, and I was occasionally floated to different units.`,
-    date: '2025-05-27',
+    date: '2025-05-29',
   },
   {
     company: 'Wolters Kluwer',
@@ -50,7 +50,7 @@ const mockReviews = [
     source: 'NUWorks',
     interview: `I interviewed with two team members for 30 minutes each, then with the manager for 30 minutes, followed by two 15-minute sessions, one with the co-op program manager and one with my recruiter. No LeetCode. They asked about Git, Linux, Ansible, Docker, and possibly Terraform or Kubernetes. For example, "How do you check a file’s disk usage in Linux?" or "What’s the difference between git rebase and git restore?" The questions were mostly high-level and practical.`,
     description: `I worked on a really cool dosing NLP service and gained a lot of experience in infrastructure automation. I used technologies like Git, Ansible, Jenkins, Docker, Kubernetes, Azure Blob Storage, and FastAPI, which I was able to include on my resume. One downside was that the co-op was fully remote. I prefer more in-person interaction, but the team was supportive and I collaborated with other Northeastern co-ops and full-time engineers who had been co-ops themselves. They had a good support system because former co-ops ran the program and understood what students needed.`,
-    date: '2025-05-29',
+    date: '2025-05-27',
   }
 ];
 
