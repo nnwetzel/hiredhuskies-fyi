@@ -65,11 +65,11 @@ export default function SubmitPage() {
   }
 
   return (
-    <main className="min-h-screen pb-20 bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
+    <main className="min-h-screen pb-20 bg-gradient-to-br from-white via-white to-rose-50 text-black font-sans relative">
       <Header />
 
       <div className="max-w-2xl mx-auto bg-white p-6 mt-12 mb-4 rounded-2xl shadow-md border border-zinc-200">
-        <h1 className="text-3xl font-bold mb-4 text-center">Submit a Co-op Review</h1>
+        <h1 className="text-3xl font-bold font-serif mb-4 text-center">Submit a Co-op Review</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Company Name" name="company" value={formValues.company} onChange={handleChange} />
@@ -133,17 +133,17 @@ export default function SubmitPage() {
             onChange={handleChange}
           />
 
-          <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-zinc-800 transition">
+          <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-zinc-800 transition font-sans">
             Submit Review
           </button>
 
           {formState === 'success' && (
-            <p className="text-green-600 text-center">
+            <p className="text-green-600 text-center font-sans">
               Submitted successfully! Please wait 24–48 hours for approval.
             </p>
           )}
           {formState === 'error' && (
-            <p className="text-red-600 text-center">Something went wrong. Please try again.</p>
+            <p className="text-red-600 text-center font-sans">Something went wrong. Please try again.</p>
           )}
         </form>
       </div>
@@ -163,7 +163,7 @@ function Input({ label, name, type = 'text', hint, min, max, step, value, onChan
   onChange: (name: FieldName, value: string) => void;
 }) {
   return (
-    <div>
+    <div className="font-sans">
       <label htmlFor={name} className="text-sm font-medium text-zinc-600">{label}</label>
       {hint && <p className="text-xs text-zinc-500 mt-1">{hint}</p>}
       <input
@@ -190,7 +190,7 @@ function Select({ label, name, value, onChange, options }: {
   options: string[];
 }) {
   return (
-    <div>
+    <div className="font-sans">
       <label className="text-sm font-medium text-zinc-600">{label}</label>
       <select
         name={name}
@@ -215,7 +215,7 @@ function Textarea({ label, name, hint, value, onChange }: {
   onChange: (name: FieldName, value: string) => void;
 }) {
   return (
-    <div>
+    <div className="font-sans">
       <label htmlFor={name} className="text-sm font-medium text-zinc-600">{label}</label>
       {hint && <p className="text-xs text-zinc-500 mt-1">{hint}</p>}
       <textarea

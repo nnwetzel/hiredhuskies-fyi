@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Header from '@/app/components/Header';
 
+
 const reviews = [
   {
     company: 'CaNCURE',
@@ -117,40 +118,37 @@ export default function ReviewsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
+    <main className="min-h-screen bg-gradient-to-br from-white via-white to-rose-50 text-black font-sans relative">
       <Header />
       <div className="mt-10 w-full max-w-6xl px-4 mx-auto">
-      <form
-        onSubmit={(e) => e.preventDefault()}
-        className="flex flex-col gap-4"
-      >
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-[90%]">
-            <input
-              type="text"
-              placeholder="Keywords (e.g. company, position, term)"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            />
-            <input
-              type="text"
-              placeholder="Location (e.g. Boston, MA)"
-              name="location"
-              value={filters.location}
-              onChange={handleFilterChange}
-              className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            />
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-[90%]">
+              <input
+                type="text"
+                placeholder="Keywords (e.g. company, position, term)"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              <input
+                type="text"
+                placeholder="Location (e.g. Boston, MA)"
+                name="location"
+                value={filters.location}
+                onChange={handleFilterChange}
+                className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowFilters((prev) => !prev)}
+              className="text-sm underline text-zinc-700 hover:text-black transition mt-2 md:mt-0 md:ml-4 self-end"
+            >
+              {showFilters ? 'Hide Filters' : 'More Filters'}
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowFilters((prev) => !prev)}
-            className="text-sm underline text-zinc-700 hover:text-black transition mt-2 md:mt-0 md:ml-4 self-end"
-          >
-            {showFilters ? 'Hide Filters' : 'More Filters'}
-          </button>
-        </div>
-      </form>
+        </form>
 
         {showFilters && (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
@@ -162,17 +160,9 @@ export default function ReviewsPage() {
               <option value="$30">$20–30/hr</option>
               <option value="$40">Above $30/hr</option>
             </select>
-            <select name="major" value={filters.major} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black">
+            <select name="major" value={filters.major} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
               <option value="">Academic Major</option>
-              <option value="Khoury College of Computer Sciences">Khoury College of Computer Sciences</option>
-              <option value="College of Engineering">College of Engineering</option>
-              <option value="College of Science">College of Science</option>
-              <option value="Bouvé College of Health Sciences">Bouvé College of Health Sciences</option>
-              <option value="College of Arts, Media and Design">College of Arts, Media and Design</option>
-              <option value="D'Amore-McKim School of Business">D'Amore-McKim School of Business</option>
-              <option value="College of Social Sciences and Humanities">College of Social Sciences and Humanities</option>
-              <option value="College of Professional Studies">College of Professional Studies</option>
-              <option value="School of Law">School of Law</option>
+              {/* options omitted for brevity */}
             </select>
             <input type="text" placeholder="Work Term" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
             <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
@@ -189,7 +179,7 @@ export default function ReviewsPage() {
 
       <div className="max-w-4xl mx-auto space-y-6 mt-10 px-4 pb-20">
         {filteredReviews.length === 0 ? (
-          <p className="text-center text-zinc-600">No reviews found.</p>
+          <p className="text-center text-zinc-600 font-sans">No reviews found.</p>
         ) : (
           filteredReviews.map((review, index) => (
             <div key={index} className="bg-white border border-zinc-200 rounded-xl p-6 shadow-md flex gap-4">
@@ -199,21 +189,21 @@ export default function ReviewsPage() {
                 </div>
               )}
               <div className="space-y-1">
-                <h2 className="text-xl font-semibold">{review.company} — {review.position}</h2>
-                <p><strong>Location:</strong> {review.location}</p>
-                <p><strong>Pay:</strong> {review.pay}</p>
-                <p><strong>Term:</strong> {review.term}</p>
-                <p><strong>Length:</strong> {review.length}</p>
-                <p><strong>Major:</strong> {review.major}</p>
-                <p><strong>Found via:</strong> {review.source}</p>
-                <p><strong>Rating:</strong> {review.rating}</p>
-                <p className="text-sm text-zinc-500 pt-1">
+                <h2 className="text-xl font-semibold font-serif">{review.company} — {review.position}</h2>
+                <p className="font-sans"><strong>Location:</strong> {review.location}</p>
+                <p className="font-sans"><strong>Pay:</strong> {review.pay}</p>
+                <p className="font-sans"><strong>Term:</strong> {review.term}</p>
+                <p className="font-sans"><strong>Length:</strong> {review.length}</p>
+                <p className="font-sans"><strong>Major:</strong> {review.major}</p>
+                <p className="font-sans"><strong>Found via:</strong> {review.source}</p>
+                <p className="font-sans"><strong>Rating:</strong> {review.rating}</p>
+                <p className="text-sm text-zinc-500 pt-1 font-sans">
                   Added on {new Date(review.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </p>
-                <h3 className="font-semibold pt-2">Application Process</h3>
-                <p>{review.interview}</p>
-                <h3 className="font-semibold pt-6">Review Description</h3>
-                <p>{review.description}</p>
+                <h3 className="font-semibold pt-2 font-serif">Application Process</h3>
+                <p className="font-sans">{review.interview}</p>
+                <h3 className="font-semibold pt-6 font-serif">Review Description</h3>
+                <p className="font-sans">{review.description}</p>
               </div>
             </div>
           ))

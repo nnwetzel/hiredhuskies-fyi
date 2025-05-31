@@ -4,14 +4,14 @@ import Header from '@/app/components/Header';
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter">
+    <main className="min-h-screen bg-gradient-to-br from-white via-white to-rose-50 text-black font-sans">
       <Header />
 
       <div className="max-w-3xl mx-auto px-6 py-24 space-y-8">
-        <h1 className="text-4xl font-bold text-center">About hiredhuskies.fyi</h1>
+        <h1 className="text-4xl font-serif font-bold text-center">About hiredhuskies.fyi</h1>
 
         <p className="text-lg leading-relaxed text-zinc-800">
-          Co-ops are a core part of the Northeastern experience — but students often walk into roles with little idea what to expect. I created <strong>hiredhuskies.fyi</strong> to bring transparency to the process.
+          Co-ops are a core part of the Northeastern experience — but students often walk into roles with little idea what to expect. I created <span className="font-semibold">hiredhuskies.fyi</span> to bring transparency to the process.
         </p>
 
         <p className="text-lg leading-relaxed text-zinc-800">
@@ -19,7 +19,7 @@ export default function AboutPage() {
         </p>
 
         <p className="text-lg leading-relaxed text-zinc-800">
-          Every review includes details about the role, pay, term length, academic major, and — most importantly — the <strong>interview process</strong> and <strong>on-the-job experience</strong>. The goal is to share honest insight from students who’ve been there.
+          Every review includes details about the role, pay, term length, academic major, and — most importantly — the <span className="font-semibold">interview process</span> and <span className="font-semibold">on-the-job experience</span>. The goal is to share honest insight from students who’ve been there.
         </p>
 
         <p className="text-lg leading-relaxed text-zinc-800">

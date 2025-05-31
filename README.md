@@ -1,1 +1,1 @@
-### Husky Co-ops
+### Hired Huskies FYI
