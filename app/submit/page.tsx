@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import Header from '@/app/components/Header';
 
 const fields = [
@@ -22,7 +20,6 @@ const fields = [
 type FieldName = (typeof fields)[number];
 
 export default function SubmitPage() {
-  const pathname = usePathname();
   const [formState, setFormState] = useState<'idle' | 'success' | 'error'>('idle');
   const [formValues, setFormValues] = useState<Record<FieldName, string>>(() =>
     fields.reduce((acc, field) => {
@@ -32,6 +29,11 @@ export default function SubmitPage() {
       return acc;
     }, {} as Record<FieldName, string>)
   );
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     fields.forEach((field) => {
@@ -42,13 +44,12 @@ export default function SubmitPage() {
   const handleChange = (name: FieldName, value: string) => {
     setFormValues((prev) => ({
       ...prev,
-      [name]: name === 'rating' ? String(Math.min(5, Math.max(1, parseFloat(value) || 0))) : value,
+      [name]: name === 'rating' ? String(Math.min(5, Math.max(1, parseFloat(value) || 1))) : value,
     }));
   };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     const response = await fetch('/api/submit-review', {
       method: 'POST',
       body: JSON.stringify(formValues),
@@ -101,23 +102,27 @@ export default function SubmitPage() {
               'Khoury College of Computer Sciences',
             ]}
           />
-          <Input
-            label="Found via"
-            name="source"
-            hint="e.g. NUWorks, LinkedIn, Handshake"
-            value={formValues.source}
-            onChange={handleChange}
-          />
-          <Input
-            label="Rating (1–5)"
-            name="rating"
-            type="number"
-            min={1}
-            max={5}
-            step={0.1}
-            value={formValues.rating}
-            onChange={handleChange}
-          />
+          <Input label="Found via" name="source" hint="e.g. NUWorks, LinkedIn, Handshake" value={formValues.source} onChange={handleChange} />
+
+          {mounted && (
+            <div className="font-sans">
+              <label className="text-sm font-medium text-zinc-600">Rating</label>
+              <p className="text-xs text-zinc-500 mt-1">Rate between 1 and 5</p>
+              <input
+                type="range"
+                min={1}
+                max={5}
+                step={0.1}
+                value={formValues.rating || '3'}
+                onChange={(e) => handleChange('rating', e.target.value)}
+                className="w-full mt-1 accent-red-500"
+              />
+              <div className="text-sm text-right text-zinc-700 mt-1">
+                {parseFloat(formValues.rating || '3').toFixed(1)} / 5
+              </div>
+            </div>
+          )}
+
           <Textarea
             label="Application Process"
             name="interview"
