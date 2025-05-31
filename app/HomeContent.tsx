@@ -17,13 +17,18 @@ export default function HomeContent() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-100 to-pink-50 text-black font-inter relative">
+    <main className="min-h-screen bg-gradient-to-br from-white via-white to-rose-50 text-black font-sans">
       <Header />
       <section className="flex flex-col items-center justify-center text-center px-6 pt-24 md:pt-36">
-        <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-black">
-          Transparent Co-op Reviews
-        </h1>
-        <p className="text-zinc-600 text-base mt-4 max-w-md">Browse reviews. Skip surprises.</p>
+      <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight text-black flex items-center justify-center">
+        Transparent Co-op Reviews
+        <span className="ml-2 inline-block w-2 h-2 rotate-45 bg-red-500 rounded-sm translate-y-4" />
+      </h1>
+
+        <p className="text-zinc-600 text-base mt-4 max-w-md font-sans">
+          Browse reviews. Skip surprises.
+        </p>
+
         <div className="mt-10 w-full max-w-2xl px-4">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-center justify-center">
             <input

@@ -159,10 +159,29 @@ export default function ReviewsPage() {
               <option value="$20">Under $20/hr</option>
               <option value="$30">$20–30/hr</option>
               <option value="$40">Above $30/hr</option>
+              <option value="Stipend">Stipend</option>
             </select>
-            <select name="major" value={filters.major} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
+            <select
+              name="major"
+              value={filters.major}
+              onChange={handleFilterChange}
+              className="w-full px-4 py-2 border border-zinc-300 rounded-md"
+            >
               <option value="">Academic Major</option>
-              {/* options omitted for brevity */}
+              {[
+                'Bouvé College of Health Sciences',
+                'College of Arts, Media & Design',
+                'College of Engineering',
+                'College of Professional Studies',
+                'College of Science',
+                'College of Social Sciences & Humanities',
+                "D'Amore-McKim School of Business",
+                'Khoury College of Computer Sciences',
+              ].map((major, idx) => (
+                <option key={idx} value={major}>
+                  {major}
+                </option>
+              ))}
             </select>
             <input type="text" placeholder="Work Term" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
             <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
@@ -189,7 +208,7 @@ export default function ReviewsPage() {
                 </div>
               )}
               <div className="space-y-1">
-                <h2 className="text-xl font-semibold font-serif">{review.company} — {review.position}</h2>
+                <h2 className="text-xl font-semibold font-sans">{review.company} — {review.position}</h2>
                 <p className="font-sans"><strong>Location:</strong> {review.location}</p>
                 <p className="font-sans"><strong>Pay:</strong> {review.pay}</p>
                 <p className="font-sans"><strong>Term:</strong> {review.term}</p>
@@ -200,9 +219,9 @@ export default function ReviewsPage() {
                 <p className="text-sm text-zinc-500 pt-1 font-sans">
                   Added on {new Date(review.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </p>
-                <h3 className="font-semibold pt-2 font-serif">Application Process</h3>
+                <h3 className="font-semibold pt-2 font-sans">Application Process</h3>
                 <p className="font-sans">{review.interview}</p>
-                <h3 className="font-semibold pt-6 font-serif">Review Description</h3>
+                <h3 className="font-semibold pt-6 font-sans">Review Description</h3>
                 <p className="font-sans">{review.description}</p>
               </div>
             </div>
