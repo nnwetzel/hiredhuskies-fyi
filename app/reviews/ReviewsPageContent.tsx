@@ -183,7 +183,16 @@ export default function ReviewsPage() {
                 </option>
               ))}
             </select>
-            <input type="text" placeholder="Work Term" name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" />
+            <select name="term" value={filters.term} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md" >
+              <option value="">Work Term</option>
+              <option value="Spring 2025">Spring 2025</option>
+              <option value="Fall 2024">Fall 2024</option>
+              <option value="Spring 2024">Spring 2024</option>
+              <option value="Winter 2023">Fall 2023</option>
+              <option value="Spring 2023">Spring 2023</option>
+              <option value="Winter 2022">Fall 2022</option>
+              <option value="Spring 2022">Spring 2022</option>
+            </select>
             <select name="length" value={filters.length} onChange={handleFilterChange} className="w-full px-4 py-2 border border-zinc-300 rounded-md">
               <option value="">Job Length</option>
               <option value="3">3 month</option>
