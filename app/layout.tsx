@@ -6,7 +6,7 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const title = 'Hired Huskies';
+const title = 'HiredHuskies';
 const description =
   'Student-powered co-op reviews, built for those who want real insight before their next job. Know what to expect — from Huskies who’ve been there.';
 
