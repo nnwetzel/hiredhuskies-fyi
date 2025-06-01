@@ -1,4 +1,4 @@
-# Hired Huskies FYI
+# HiredHuskies
 
 A web app for verified Northeastern co-op reviews, built to improve transparency.
 
